@@ -2,9 +2,13 @@ import { CiHeart, CiSearch } from "react-icons/ci";
 import img from "../assets/shop.png";
 import { GrUserManager } from "react-icons/gr";
 import { IoBagHandleOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../CartContext";
 
 function Header() {
+  const navigate = useNavigate();
+  const { cart } = useContext(CartContext);
   return (
     <header className="flex bg-white w-full h-[70px] shadow-md fixed">
       <div className="w-[10%] flex items-center justify-center">
@@ -38,9 +42,14 @@ function Header() {
           <CiHeart size={20} />
           <span className="text-sm font-semibold text-gray-600">Wishlist</span>
         </div>
-        <div className="flex flex-col items-center">
+        <div
+          className="flex flex-col items-center"
+          onClick={() => navigate("/cart")}
+        >
           <IoBagHandleOutline size={20} />
-          <span className="text-sm font-semibold text-gray-600">Cart</span>
+          <span className="text-sm font-semibold text-gray-600">
+            Cart({cart.length})
+          </span>
         </div>
       </div>
     </header>

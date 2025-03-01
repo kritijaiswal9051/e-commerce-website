@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../CartContext";
 
 function Home() {
   const [productData, setProductData] = useState([]);
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     async function fetchProductData() {
@@ -26,18 +28,24 @@ function Home() {
         {productData && productData.length ? (
           productData.map((item, index) => (
             <div
-              onClick={() => {
-                navigate(`product/${item.id}`);
-              }}
               key={index}
               className="flex flex-col rounded-lg border-[3px] items-center mb-2"
             >
               <img
+                onClick={() => {
+                  navigate(`product/${item.id}`);
+                }}
                 src={item.thumbnail}
                 alt={item.title}
                 className="w-[150px] h-[200px] object-cover"
               />
               <p className="text-sm text-center my-2">{item.title}</p>
+              <button
+                className="px-4 py-1 bg-blue-500 text-white rounded m-4 hover:bg-blue-600 transition"
+                onClick={() => addToCart(item)}
+              >
+                Add To Cart
+              </button>
             </div>
           ))
         ) : (
